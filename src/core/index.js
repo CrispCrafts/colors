@@ -1,4 +1,9 @@
+import randomColor from 'randomcolor';
+
 export function hexToRgb(hex) {
+    if(!hex) {
+        return '';
+    }
     // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
     var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
     hex = hex.replace(shorthandRegex, function(m, r, g, b) {
@@ -16,6 +21,9 @@ export function hexToRgb(hex) {
 }
 
 export function rgbToHex(rgb){
+    if(!rgb) {
+        return '';
+    } 
     var hex = /\([\s+]?[\d]{0,3}%?,[\s+]?[\d+]{0,3}%?,[\s+]?[\d+]{0,3}%?[\s+]?(,[\s+]?[\d+]{0,3}%?[\s+]?)?\)$/i.exec(rgb);
     var rgba = false;
     var percentageRegx = /^[\d]{1,3}%$/g;
@@ -41,6 +49,9 @@ export function rgbToHex(rgb){
 }
 
 export function rgbToString(rgb) {
+    if(!rgb) {
+        return '';
+    }
     console.log(rgb);
     var str = rgb.a ? 'rgba(' : 'rgb(';
     var count = 0;
@@ -59,7 +70,7 @@ export function rgbToString(rgb) {
 
 export function hexToString(hex) {
     if(!hex) {
-        return null;
+        return '';
     }
     if (!/^#/.test(hex)) {
         return `#${hex}`;
@@ -92,4 +103,8 @@ export function validateHexColor(color) {
 export function validateRgbColor(color) {
     var a = /(^([rR][gG][bB][aA]?[\s+]?)?\([\s+]?[\d]{1,3}%?,[\s+]?[\d+]{1,3}%?,[\s+]?[\d+]{1,3}%?(,[\s+]?[\d+]{1,3}%?[\s+]?)?\)$)/i.test(color);
     return a;
+}
+
+export function randColor() {
+    return randomColor();
 }
