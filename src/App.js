@@ -15,7 +15,9 @@ class App extends Component {
       rgbValue: '',
       defaultColor: '#E53935',
       textColor: getTextColor('#E53935'),
-      animationSpeed: '100ms'
+      animationSpeed: '300ms',
+      messageOp: 0,
+      notFocused: true
     };
   }
 
@@ -23,24 +25,31 @@ class App extends Component {
     window.addEventListener('keydown', (e) => {
       switch(e.which) {
         case 32:
-          var temp = randColor();
-          this.setState({
-            color: temp,
-            hexValue: temp,
-            rgbValue: rgbToString(hexToRgb(temp)),
-            textColor: getTextColor(temp),
-            validHex: true,
-            validRgb: true,
-          });
+          if(this.state.notFocused) {
+            var temp = randColor();
+            this.setState({
+              color: temp,
+              hexValue: temp,
+              rgbValue: rgbToString(hexToRgb(temp)),
+              textColor: getTextColor(temp),
+              validHex: true,
+              validRgb: true,
+            });
+          }
           break;
       }
     });
+    setTimeout(() => {
+      this.setState({
+        messageOp: 1
+      });
+    }, 1000);
   }
 
   render() {
     return (
       <div className="App" style={{ color: this.state.textColor }}>
-        <div className="app-container" style={{ backgroundColor: this.state.color || this.state.defaultColor, transition: `all ${this.state.animationSpeed} ease-out` }}>
+        <div className="app-container" style={{ backgroundColor: this.state.color || this.state.defaultColor, transition: `background ${this.state.animationSpeed} ease-out` }}>
           <AppToolbar title="Color"/>
           <Nav />
           <ColorConverter
@@ -64,6 +73,11 @@ class App extends Component {
                 validHex: false
               });
             }}
+            onFocus={(focused) => {
+              this.setState({
+                notFocused: !focused
+              });
+            }}
             onColorChanged={(c) => {
               if(!c) {
                 this.setState({
@@ -80,7 +94,9 @@ class App extends Component {
               });
             }}
           />
-          <div style={{marginTop: '40px'}}>Press the space bar if you're feeling lucky</div>
+          <div className="app-message" style={{opacity: this.state.notFocused ? this.state.messageOp : 0, transition: `all ${this.state.animationSpeed} ease-out`}}>
+            Press the Space Bar
+          </div>
           <AppFooter /> 
         </div>
       </div>

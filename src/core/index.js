@@ -11,7 +11,7 @@ export function hexToRgb(hex) {
     });
 
     var result = /^#?(([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})?)$/gi.exec(hex);
-    console.log(result);
+    //console.log(result);
     return result ? {
         r: parseInt(result[2], 16),
         g: parseInt(result[3], 16),
@@ -44,7 +44,7 @@ export function rgbToHex(rgb){
      ("0" + parseInt(splitRGB[1],10).toString(16)).slice(-2) +
      ("0" + parseInt(splitRGB[2],10).toString(16)).slice(-2) +
      `${rgba ? ("0" + parseInt(splitRGB[3],10).toString(16)).slice(-2) : ''}` : '';
-     console.log(a);
+     //console.log(a);
      return a;
 }
 
@@ -52,7 +52,7 @@ export function rgbToString(rgb) {
     if(!rgb) {
         return '';
     }
-    console.log(rgb);
+    //console.log(rgb);
     var str = rgb.a ? 'rgba(' : 'rgb(';
     var count = 0;
     for (let c in rgb) {
@@ -64,7 +64,7 @@ export function rgbToString(rgb) {
             break;
         }
     }
-    console.log(str);
+    //console.log(str);
     return str;
 }
 
@@ -91,7 +91,7 @@ function getLuminance(hex) {
 }
 
 export function getTextColor(hex) {
-    console.log(getLuminance(hex) > 0.179 ? 'TEXT COLOR: BLACK' : 'TEXT COLOR: WHITE');
+    //console.log(getLuminance(hex) > 0.179 ? 'TEXT COLOR: BLACK' : 'TEXT COLOR: WHITE');
     return getLuminance(hex) > 0.179 ? '#212121' : '#f1f1f1f1';
 }
 

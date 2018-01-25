@@ -7,6 +7,18 @@ class ColorConverter extends Component {
         super(props);
         this.handleHEXChange = this.handleHEXChange.bind(this);
         this.handleRGBChange = this.handleRGBChange.bind(this);
+        this.handleFocus = this.handleFocus.bind(this);
+        this.handleBlur = this.handleBlur.bind(this);
+    }
+
+    handleFocus(){
+        console.log('focused');
+        this.props.onFocus(true);
+    }
+
+    handleBlur() {
+        console.log('NOT focused');
+        this.props.onFocus(false);
     }
 
     handleHEXChange(event) {
@@ -50,13 +62,17 @@ class ColorConverter extends Component {
                     type="text"
                     placeholder="#HEX"
                     value={this.props.hex}
-                    onChange={this.handleHEXChange} />
+                    onChange={this.handleHEXChange}
+                    onFocus={this.handleFocus}
+                    onBlur={this.handleBlur}/>
                 <input
                     spellCheck="false"
                     type="text"
                     placeholder="(R,G,B)"
                     value={this.props.rgb}
-                    onChange={this.handleRGBChange} />
+                    onChange={this.handleRGBChange}
+                    onFocus={this.handleFocus}
+                    onBlur={this.handleBlur}/>
             </div>
         );
     }
