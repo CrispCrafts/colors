@@ -19,7 +19,7 @@ input[type=text] {
     /*color: white;
     border-color: white;
     mix-blend-mode: difference;*/
-    border-width: 0.5px;
+    border-bottom-width: thin;
     box-sizing: border-box;
     padding: 8px;
     background-color: transparent;
@@ -27,7 +27,7 @@ input[type=text] {
 }
 
 input[type=text]:focus {
-    border-width: 0.5px;
+    border-bottom-width: 1px;
     border-bottom: solid;
     color: inherit;
     /*border-color: white;

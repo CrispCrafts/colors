@@ -1,48 +1,76 @@
+import randomColor from 'randomcolor';
+
 export function hexToRgb(hex) {
+    if(!hex) {
+        return '';
+    }
     // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
     var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
     hex = hex.replace(shorthandRegex, function(m, r, g, b) {
         return r + r + g + g + b + b;
     });
 
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    var result = /^#?(([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})?)$/gi.exec(hex);
+    //console.log(result);
     return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
+        r: parseInt(result[2], 16),
+        g: parseInt(result[3], 16),
+        b: parseInt(result[4], 16),
+        a: result[5] ? parseInt(result[5], 16) : null
     } : null;
 }
 
 export function rgbToHex(rgb){
-    var hex = /\([\s+]?[\d]{0,3},[\s+]?[\d+]{0,3},[\s+]?[\d+]{0,3}[\s+]?(,[\s+]?[\d+]{0,3}[\s+]?)?\)$/i.exec(rgb);
-    console.log(hex);
-    var splitRGB = hex[0].replace('(', '').replace(')', '').split(',').filter(x => x);
-    console.log(splitRGB);
+    if(!rgb) {
+        return '';
+    } 
+    var hex = /\([\s+]?[\d]{0,3}%?,[\s+]?[\d+]{0,3}%?,[\s+]?[\d+]{0,3}%?[\s+]?(,[\s+]?[\d+]{0,3}%?[\s+]?)?\)$/i.exec(rgb);
+    var rgba = false;
+    var percentageRegx = /^[\d]{1,3}%$/g;
+
+    var splitRGB = hex[0].replace(/[()\s+]/g, '').split(',').filter(x => x).map((x, indx) => {
+        var percentage = x.match(percentageRegx);
+        rgba = (indx + 1) > 3;
+        if(percentage && percentage.length !== 0) {
+            return Math.round((parseInt(percentage) * .01) * 255);
+        }
+        return parseInt(x);
+    });
+
+    //return `${rgba ? 'rgba(' : 'rgb('}${rgb[0]}, ${rgb[1]}, ${rgb[2]}${rgba ? `, ${rgb[3]})`: ')'}`;
+    
     var a = (splitRGB && splitRGB.length >= 3) ? "#" +
      ("0" + parseInt(splitRGB[0],10).toString(16)).slice(-2) +
      ("0" + parseInt(splitRGB[1],10).toString(16)).slice(-2) +
-     ("0" + parseInt(splitRGB[2],10).toString(16)).slice(-2) : '';
-     console.log(a);
+     ("0" + parseInt(splitRGB[2],10).toString(16)).slice(-2) +
+     `${rgba ? ("0" + parseInt(splitRGB[3],10).toString(16)).slice(-2) : ''}` : '';
+     //console.log(a);
      return a;
 }
 
 export function rgbToString(rgb) {
-    console.log(rgb);
-    var str = 'rgb(';
-    var a = 0;
-    for (let c in rgb) {
-        console.log(rgb[c]);
-        console.log(c);
-        str += `${rgb[c]}${a < 2 ? ', ' : ')'}`;
-        a += 1;
+    if(!rgb) {
+        return '';
     }
-    console.log(str);
+    //console.log(rgb);
+    var str = rgb.a ? 'rgba(' : 'rgb(';
+    var count = 0;
+    for (let c in rgb) {
+        if(c) {
+            str += `${rgb[c]}${(count < (rgb.a ? 3 : 2)) ? ', ': ')'}`;
+        }
+        count += 1;
+        if(count === (rgb.a ? 4 : 3)) {
+            break;
+        }
+    }
+    //console.log(str);
     return str;
 }
 
 export function hexToString(hex) {
     if(!hex) {
-        return null;
+        return '';
     }
     if (!/^#/.test(hex)) {
         return `#${hex}`;
@@ -63,18 +91,20 @@ function getLuminance(hex) {
 }
 
 export function getTextColor(hex) {
-    console.log(getLuminance(hex) > 0.179 ? 'TEXT COLOR: BLACK' : 'TEXT COLOR: WHITE');
-    return getLuminance(hex) > 0.179 ? '#000000' : '#ffffff';
+    //console.log(getLuminance(hex) > 0.179 ? 'TEXT COLOR: BLACK' : 'TEXT COLOR: WHITE');
+    return getLuminance(hex) > 0.179 ? '#212121' : '#f1f1f1f1';
 }
 
 export function validateHexColor(color) {
-    var a = /(^[A-Fa-f0-9]{6}$)|(^#[A-Fa-f0-9]{6}$)|(^#[A-Fa-f0-9]{3}$)|(^[A-Fa-f0-9]{3}$)/i.test(color);
-    console.log(color, a);
+    var a = /(^[a-f0-9]{8}$)|(^#[a-f0-9]{8}$)|(^[a-f0-9]{6}$)|(^#[a-f0-9]{6}$)|(^#[a-f0-9]{3}$)|(^[a-f0-9]{3}$)/gi.test(color);
     return a;
 }
 
 export function validateRgbColor(color) {
-    var a = /(^([rR][gG][bB][aA]?[\s+]?)?\([\s+]?[\d]{0,3},[\s+]?[\d+]{0,3},[\s+]?[\d+]{0,3}[\s+]?(,[\s+]?[\d+]{0,3}[\s+]?)?\)$)/i.test(color);
-    console.log(color,)
+    var a = /(^([rR][gG][bB][aA]?[\s+]?)?\([\s+]?[\d]{1,3}%?,[\s+]?[\d+]{1,3}%?,[\s+]?[\d+]{1,3}%?(,[\s+]?[\d+]{1,3}%?[\s+]?)?\)$)/i.test(color);
     return a;
+}
+
+export function randColor() {
+    return randomColor();
 }

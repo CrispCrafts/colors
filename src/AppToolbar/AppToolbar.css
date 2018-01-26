@@ -1,0 +1,31 @@
+.toolbarContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    padding-left: 24px;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.toolbarLogo {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+.toolbarContainer img {
+    user-select: none;
+    -webkit-user-select: none;
+    height: 64px;
+    width: 64px;
+}
+
+.title {
+    padding-left: 12px;
+    font-size: 24px;
+}

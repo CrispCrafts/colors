@@ -1,0 +1,13 @@
+.nav-container {
+    display: flex;
+    flex-direction: row;
+    color: inherit;
+}
+
+.nav-container div{
+    padding: 24px 12px;
+}
+
+.nav-container div i {
+    font-size: 30px;
+}
