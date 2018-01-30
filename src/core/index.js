@@ -91,8 +91,14 @@ function getLuminance(hex) {
 }
 
 export function getTextColor(hex) {
-    //console.log(getLuminance(hex) > 0.179 ? 'TEXT COLOR: BLACK' : 'TEXT COLOR: WHITE');
-    return getLuminance(hex) > 0.179 ? '#212121' : '#f1f1f1f1';
+    if(getAlpha(hex) < 200) {
+        return '#212121';
+    }
+    return getLuminance(hex) > 0.179 ? '#212121' : '#f1f1f1';
+}
+
+export function getAlpha(hex) {
+    return (parseInt(hex.substring(7, 9), 16) || 255);
 }
 
 export function validateHexColor(color) {
@@ -107,4 +113,100 @@ export function validateRgbColor(color) {
 
 export function randColor() {
     return randomColor();
+}
+
+export function rgbToHsl(rgb){
+    if(!rgb) {
+        return '';
+    }
+    var r = rgb.r;
+    var g = rgb.g;
+    var b = rgb.b;
+
+    r /= 255, g /= 255, b /= 255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var h, s, l = (max + min) / 2;
+
+    if (max == min) { h = s = 0; } 
+    else {
+        var d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+
+        switch (max){
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        
+        h /= 6;
+    }
+    
+    return `hsl(${[((h*100+0.5)|0)+'°', ((s*100+0.5)|0) + '%', ((l*100+0.5)|0) + '%'].join(', ')})`;
+}
+
+export function rgbToHsv(rgb) {
+    if(!rgb) {
+        return '';
+    }
+
+    var computedH = 0;
+    var computedS = 0;
+    var computedV = 0;
+   
+    //remove spaces from input RGB values, convert to int
+    var r = rgb.r;
+    var g = rgb.g;
+    var b = rgb.b;
+   
+    if ( r==null || g==null || b==null ||
+        isNaN(r) || isNaN(g)|| isNaN(b) ) {
+      alert ('Please enter numeric RGB values!');
+      return;
+    }
+    if (r<0 || g<0 || b<0 || r>255 || g>255 || b>255) {
+      alert ('RGB values must be in the range 0 to 255.');
+      return;
+    }
+    r=r/255; g=g/255; b=b/255;
+    var minRGB = Math.min(r,Math.min(g,b));
+    var maxRGB = Math.max(r,Math.max(g,b));
+   
+    // Black-gray-white
+    if (minRGB==maxRGB) {
+     computedV = minRGB;
+     return [0,0,computedV];
+    }
+   
+    // Colors other than black-gray-white:
+    var d = (r==minRGB) ? g-b : ((b==minRGB) ? r-g : b-r);
+    var h = (r==minRGB) ? 3 : ((b==minRGB) ? 1 : 5);
+    computedH = (60*(h - d/(maxRGB - minRGB))).toFixed(0);
+    computedS = (((maxRGB - minRGB)/maxRGB)*100).toFixed(0);
+    computedV = (maxRGB*100).toFixed(0);
+    return `hsv(${computedH}°, ${computedS}%, ${computedV}%)`;
+}
+
+export function rgbToCmyk(rgb) {
+    var result = {
+        c: 0,
+        m: 0,
+        y: 0,
+        k: 0
+    }
+ 
+    var r = rgb.r / 255;
+    var g = rgb.g / 255;
+    var b = rgb.b / 255;
+
+    result.k = Math.min( 1 - r, 1 - g, 1 - b );
+    result.c = ( 1 - r - result.k ) / ( 1 - result.k );
+    result.m = ( 1 - g - result.k ) / ( 1 - result.k );
+    result.y = ( 1 - b - result.k ) / ( 1 - result.k );
+
+    result.c = Math.round( result.c * 100 );
+    result.m = Math.round( result.m * 100 );
+    result.y = Math.round( result.y * 100 );
+    result.k = Math.round( result.k * 100 );
+
+    return `cmyk(${result.c}%, ${result.m}%, ${result.y}%, ${result.k}%)`;
 }
