@@ -9,6 +9,9 @@ class ColorConverter extends Component {
         this.handleRGBChange = this.handleRGBChange.bind(this);
         this.handleFocus = this.handleFocus.bind(this);
         this.handleBlur = this.handleBlur.bind(this);
+        this.state = {
+            showMore: false
+        };
     }
 
     handleFocus(){
@@ -73,9 +76,44 @@ class ColorConverter extends Component {
                     onChange={this.handleRGBChange}
                     onFocus={this.handleFocus}
                     onBlur={this.handleBlur}/>
-                <div className="more">
-                    Show More
-                    <i className="material-icons">keyboard_arrow_down</i>
+                {
+                    this.state.showMore &&
+                    <div className="container">
+                        <input
+                            disabled
+                            spellCheck="false"
+                            type="text"
+                            placeholder="(C,M,Y,K)"
+                            value={this.props.cmyk}
+                            onFocus={this.handleFocus}
+                            onBlur={this.handleBlur}/>
+                        <input
+                            disabled
+                            spellCheck="false"
+                            type="text"
+                            placeholder="(H°,S%,V%)"
+                            value={this.props.hsv}
+                            onFocus={this.handleFocus}
+                            onBlur={this.handleBlur}/>
+                        <input
+                            disabled
+                            spellCheck="false"
+                            type="text"
+                            placeholder="(H°,S%,L%)"
+                            value={this.props.hsl}
+                            onFocus={this.handleFocus}
+                            onBlur={this.handleBlur}/>
+                    </div>
+                }
+                <div
+                    className="more"
+                    onClick={() => {
+                        this.setState({
+                            showMore: !this.state.showMore
+                        });
+                    }}>
+                    Show {this.state.showMore ? 'Less' : 'More'}
+                    <i className="material-icons">{this.state.showMore ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}</i>
                 </div>
             </div>
         );
