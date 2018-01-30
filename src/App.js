@@ -13,6 +13,7 @@ class App extends Component {
       color: '',
       hexValue: '',
       rgbValue: '',
+      spaceEventFired: false,
       defaultColor: '#E53935',
       textColor: getTextColor('#E53935'),
       animationSpeed: '300ms',
@@ -25,9 +26,10 @@ class App extends Component {
     window.addEventListener('keydown', (e) => {
       switch(e.which) {
         case 32:
-          if(this.state.notFocused) {
+          if(this.state.notFocused && !this.state.spaceEventFired) {
             var temp = randColor();
             this.setState({
+              spaceEventFired: true,
               color: temp,
               hexValue: temp,
               rgbValue: rgbToString(hexToRgb(temp)),
@@ -39,6 +41,17 @@ class App extends Component {
           break;
       }
     });
+
+    window.addEventListener('keyup', (e) => {
+      switch(e.which) {
+        case 32:
+          this.setState({
+            spaceEventFired: false
+          });
+          break;
+      }
+    });
+
     setTimeout(() => {
       this.setState({
         messageOp: 1

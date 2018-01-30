@@ -73,6 +73,10 @@ class ColorConverter extends Component {
                     onChange={this.handleRGBChange}
                     onFocus={this.handleFocus}
                     onBlur={this.handleBlur}/>
+                <div className="more">
+                    Show More
+                    <i className="material-icons">keyboard_arrow_down</i>
+                </div>
             </div>
         );
     }
