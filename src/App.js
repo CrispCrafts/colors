@@ -69,7 +69,10 @@ class App extends Component {
     return (
       <div
         className="app-background"
-        style={{ color: this.state.textColor, backgroundColor: this.state.color || this.state.defaultColor }}>
+        style={{
+          color: this.state.textColor,
+          transition: `color ${this.state.animationSpeed * 2} ease-in`
+        }}>
         <div
           className="app-container"
           onClick={(e) => {
@@ -86,7 +89,6 @@ class App extends Component {
                   validRgb: true,
                 });
               } else {
-                console.log("FIRST TAP RESET");
                 this.setState({
                   firstTap: false
                 });
@@ -111,12 +113,11 @@ class App extends Component {
               validHex={this.state.validHex}
               onClick={(e) => {
                 if(this.state.isMobile) {
-                  console.log(e);
+                  e.preventDefault();
+                  e.stopPropagation();
                   this.setState({
                     firstTap: true
                   });
-                  e.preventDefault();
-                  e.stopPropagation();
                 }
               }}
               onHexChange={(c, valid) => {

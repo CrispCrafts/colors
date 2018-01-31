@@ -6,6 +6,7 @@
     align-items: center;
     justify-content: space-between;
     user-select: none;
+    background-color: inherit;
 }
 
 .footerCopy {
