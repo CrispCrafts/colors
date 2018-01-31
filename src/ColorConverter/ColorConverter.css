@@ -1,11 +1,11 @@
 .container {
-    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-content: center;
     align-items: center;
     transition: height .25s ease;
+    max-width: 375px;
+    width: 100%;
 }
 
 .more {
@@ -15,51 +15,65 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    user-select: none;
+}
+
+.moreText {
+    animation: float 2s ease-in-out infinite;
 }
 
 input[type=text] {
     font-family: inherit;
-    width: 350px;
     font-size: 24px;
-    min-width: 350px;
     margin-bottom: 12px;
     border: none;
     border-bottom: dotted;
     color: inherit;
-    /*color: white;
-    border-color: white;
-    mix-blend-mode: difference;*/
     border-bottom-width: thin;
     box-sizing: border-box;
     padding: 8px;
     background-color: transparent;
     transition: all 100ms ease-in-out;
+    display: inline-block;
+    width: 100%;
 }
 
 input[type=text]:focus {
     border-bottom-width: 1px;
     border-bottom: solid;
     color: inherit;
-    /*border-color: white;
-    mix-blend-mode: difference;*/
 }
 
-input[type=text]::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+input[type=text]::-webkit-input-placeholder {
     color: #000000;
     opacity: 0.4;
 }
 
-input[type=text]::-moz-placeholder { /* Firefox 19+ */
+input[type=text]::-moz-placeholder {
     color: #000000;
     opacity: 0.4;
 }
 
-input[type=text]:-ms-input-placeholder { /* IE 10+ */
+input[type=text]:-ms-input-placeholder {
     color: #000000;
     opacity: 0.4;
 }
 
-input[type=text]:-moz-placeholder { /* Firefox 18- */
+input[type=text]:-moz-placeholder {
     color: #000000;
     opacity: 0.4;
+}
+
+@keyframes float {
+	0% {
+	    transform: translatey(0px);
+    }
+    
+	50% {
+		transform: translatey(-5px);
+    }
+    
+	100% {
+		transform: translatey(0px);
+	}
 }

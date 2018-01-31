@@ -98,7 +98,11 @@ export function getTextColor(hex) {
 }
 
 export function getAlpha(hex) {
-    return (parseInt(hex.substring(7, 9), 16) || 255);
+    var sub = hex.substring(7, 9);
+    if(sub) {
+        return (parseInt(hex.substring(7, 9), 16))
+    }
+    return 255;
 }
 
 export function validateHexColor(color) {

@@ -1,22 +1,28 @@
-.App {
-  height: 100vh;
-  width: 100vw;
-  /*color: white;
-  mix-blend-mode: difference;*/
+.app-background {
+  min-height: 100%;
+  width: 100%;
   font-family: inherit;
   background-image: url('./images/graphy.png');
 }
 
-
 .app-container {
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
+}
+
+.app-content {
+  /*height is full screen - (header height + footer height)*/
+  min-height: calc(100vh - (56px + 48px));
+  background-color: inherit;
+  margin: 0 auto;
+  margin-top: 56px;
   display: flex;
   justify-content: center;
   align-content: center;
   align-items: center;
   flex-direction: column;
   font-family: inherit;
+  padding: 24px;
 }
 
 .app-message {
@@ -24,4 +30,7 @@
   opacity: 0;
   font-weight: thin;
   font-size: 24px;
+  margin-bottom: 24px;
+  text-align: center;
+  user-select: none;
 }

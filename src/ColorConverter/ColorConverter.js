@@ -14,8 +14,9 @@ class ColorConverter extends Component {
         };
     }
 
-    handleFocus(){
+    handleFocus(e){
         console.log('focused');
+        e.preventDefault();
         this.props.onFocus(true);
     }
 
@@ -66,6 +67,7 @@ class ColorConverter extends Component {
                     placeholder="#HEX"
                     value={this.props.hex}
                     onChange={this.handleHEXChange}
+                    onClick={this.props.onClick}
                     onFocus={this.handleFocus}
                     onBlur={this.handleBlur}/>
                 <input
@@ -73,12 +75,18 @@ class ColorConverter extends Component {
                     type="text"
                     placeholder="(R,G,B)"
                     value={this.props.rgb}
+                    onClick={this.props.onClick}
                     onChange={this.handleRGBChange}
                     onFocus={this.handleFocus}
                     onBlur={this.handleBlur}/>
                 {
                     this.state.showMore &&
-                    <div className="container">
+                    <div
+                        className="container" 
+                        onClick={(e) => {    
+                            e.preventDefault();
+                            e.stopPropagation();
+                        }}>
                         <input
                             disabled
                             spellCheck="false"
@@ -107,12 +115,14 @@ class ColorConverter extends Component {
                 }
                 <div
                     className="more"
-                    onClick={() => {
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
                         this.setState({
                             showMore: !this.state.showMore
                         });
                     }}>
-                    Show {this.state.showMore ? 'Less' : 'More'}
+                    <span className="moreText">Show {this.state.showMore ? 'Less' : 'More'}</span>
                     <i className="material-icons">{this.state.showMore ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}</i>
                 </div>
             </div>
